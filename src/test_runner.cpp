@@ -2,7 +2,7 @@
 #include <iostream>
 #include <exception>
 
-TestRunner::TestRunner() : currentState(State::IDLE), device(),setVoltageStep(8.0),checkThresholdStep(4.9,5.1),steps{ &setVoltageStep, &checkThresholdStep}
+TestRunner::TestRunner() : currentState(State::IDLE), device(),setVoltageStep(5.0),checkThresholdStep(4.9,5.1),steps{ &setVoltageStep, &checkThresholdStep}
 {
 
 }
