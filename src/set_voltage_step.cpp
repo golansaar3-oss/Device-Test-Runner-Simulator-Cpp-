@@ -26,7 +26,7 @@ StepResult SetVoltageStep::execute(DeviceSimulator& device)
     
 }
 
-const char *SetVoltageStep::name() const
+std::string SetVoltageStep::name() const
 {
     return "SetVoltageStep";
 }

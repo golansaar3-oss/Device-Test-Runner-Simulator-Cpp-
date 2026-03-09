@@ -8,7 +8,7 @@ class SetVoltageStep : public TestStep
 public:
     SetVoltageStep(double Voltage);
     StepResult execute(DeviceSimulator& device) override;
-    const char* name() const override;
+    std::string name() const override;
 
 private:
     const double targetVoltage;

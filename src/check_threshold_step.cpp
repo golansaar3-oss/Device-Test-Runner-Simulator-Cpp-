@@ -15,7 +15,7 @@ StepResult CheckThresholdStep::execute(DeviceSimulator& device)
     return StepResult::PASS;
 }
 
-const char *CheckThresholdStep::name() const
+std::string CheckThresholdStep::name() const
 {
     return "CheckThresholdStep";
 }

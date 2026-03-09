@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "step_result.hpp"
 
 class DeviceSimulator;
@@ -10,6 +11,6 @@ public:
     virtual ~TestStep() = default;
 
     virtual StepResult execute(DeviceSimulator& device) = 0;
-    virtual const char* name() const = 0;
+    virtual std::string name() const = 0;
 
 };
