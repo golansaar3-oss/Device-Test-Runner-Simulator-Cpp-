@@ -1,11 +1,35 @@
 # Device Test Runner Simulator
 
-A C++ project that implements a **finite state machine (FSM) based device test runner**.
+# Purpose
+
+This project was created as a practice exercise to improve skills in **C++ system design and architecture**, with a focus on building software in a structured and maintainable way.
+
+The project emphasizes:
+
+- **Object-oriented design in C++**
+- **SOLID principles**
+- **Design patterns** (Factory, pipeline-based processing)
+- **Finite State Machine (FSM) architecture**
+- **Separation of responsibilities and modular system design**
+- **Clean and maintainable code structure**
+- **Building Class UMLS**
+It is intended as a learning project to practice designing a system from scratch, gradually evolving the architecture while keeping the codebase organized and extensible.
+
+
+## Development Notes
+
+This project was developed as a personal learning exercise in C++ system design and architecture.
+
+AI-assisted tools (such as ChatGPT) were occasionally used as a **development aid** for:
+- discussing architectural decisions
+- reviewing design ideas
+- clarifying C++ language details
+
+All design decisions, implementation, and testing were performed and validated by the author.
+---
 
 The system simulates a device and executes a sequence of test steps such as setting a voltage and verifying that it is within a threshold.  
 Test steps are now loaded from an external configuration file and processed through a structured loading pipeline.
-
----
 
 # Architecture
 
@@ -195,14 +219,3 @@ Current version: **V2**
 - Introduced structured validation and error reporting.
 
 ---
-
-# Purpose
-
-This project was created as a practice exercise to improve:
-
-- C++ class design
-- finite state machine implementation
-- modular system architecture
-- parsing and validation pipelines
-- clean separation of responsibilities
-- deterministic programming style commonly used in embedded systems
