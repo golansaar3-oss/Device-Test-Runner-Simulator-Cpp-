@@ -1,8 +1,8 @@
-#include "set_voltage_step.hpp"
-#include "device_simulator.hpp"
 #include <exception>
 #include <iostream>
 
+#include "set_voltage_step.hpp"
+#include "device_simulator.hpp"
 
 
 SetVoltageStep::SetVoltageStep(double voltage) : targetVoltage(voltage)

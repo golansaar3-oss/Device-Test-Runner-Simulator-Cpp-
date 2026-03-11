@@ -1,63 +1,221 @@
 # Device Test Runner Simulator
 
-A small C++ project that implements a finite state machine (FSM) based device test runner.
+# Purpose
 
-The project simulates a device and executes a sequence of test steps such as setting a voltage and verifying it is within a threshold.
+This project was created as a practice exercise to improve skills in **C++ system design and architecture**, with a focus on building software in a structured and maintainable way.
 
-## Architecture
+The project emphasizes:
 
-The system is built around a simple finite state machine controlling the
-execution of test steps.
+- **Object-oriented design in C++**
+- **SOLID principles**
+- **Design patterns** (Factory, pipeline-based processing)
+- **Finite State Machine (FSM) architecture**
+- **Separation of responsibilities and modular system design**
+- **Clean and maintainable code structure**
+- **Building Class UMLS**
+It is intended as a learning project to practice designing a system from scratch, gradually evolving the architecture while keeping the codebase organized and extensible.
 
-### Finite State Machine
+
+## Development Notes
+
+This project was developed as a personal learning exercise in C++ system design and architecture.
+
+AI-assisted tools (such as ChatGPT) were occasionally used as a **development aid** for:
+- discussing architectural decisions
+- reviewing design ideas
+- clarifying C++ language details
+
+All design decisions, implementation, and testing were performed and validated by the author.
+---
+
+The system simulates a device and executes a sequence of test steps such as setting a voltage and verifying that it is within a threshold.  
+Test steps are now loaded from an external configuration file and processed through a structured loading pipeline.
+
+# Architecture
+
+The system is built around two main concepts:
+
+1. **Finite State Machine (FSM)** controlling test execution
+2. **Test Plan Loading Pipeline** responsible for reading, parsing, validating, and constructing test steps
+
+---
+
+# Finite State Machine
 
 <p align="center">
   <img src="diagrams/FSM.svg" width="600">
 </p>
 
-The runner starts in `IDLE`.  
-When `Start()` is called it transitions to `RUNNING` and executes all test steps.
-The final state depends on the result of the executed steps.
+The runner starts in `IDLE`.
 
-### Class Design
+When `start()` is called:
+
+```
+IDLE → RUNNING
+```
+
+The runner executes each step in the loaded `TestPlan`.
+
+The final state depends on the result of the executed steps:
+
+```
+RUNNING → PASSED
+RUNNING → FAILED
+RUNNING → ERROR
+```
+
+---
+
+# Class Design
 
 <p align="center">
   <img src="diagrams/ClassUML.svg" width="700">
 </p>
 
-`TestRunner` orchestrates execution while each `TestStep`
-implements a specific test operation.
+### Execution Layer
 
-## Features
+- **TestRunner**  
+  Executes a `TestPlan` using the FSM.
 
-- FSM-based test execution (IDLE → RUNNING → PASSED / FAILED / ERROR)
-- Abstract `TestStep` interface
-- Concrete test steps:
+- **TestPlan**  
+  Holds a sequence of `TestStep` objects.
+
+- **TestStep (abstract)**  
+  Interface implemented by concrete test steps.
+
+- **Concrete Steps**
   - `SetVoltageStep`
   - `CheckThresholdStep`
-- Deterministic design (no dynamic allocation)
 
-## Project Structure
+---
 
-diagrams/ - FSM and class UML diagrams
-include/ – header files  
-src/ – implementation files  
+# Test Plan Loading Pipeline
 
-## Build
+Test plans are now loaded from configuration files using a modular pipeline.
+
+```
+Configuration File
+        ↓
+TestFileReader
+        ↓
+TestFileParser
+        ↓
+TestFileValidator
+        ↓
+TestStepFactory
+        ↓
+TestPlanLoader
+        ↓
+TestPlan
+        ↓
+TestRunner
+```
+
+### Components
+
+**TestFileReader**
+- Reads raw lines from the configuration file.
+
+**TestFileParser**
+- Converts raw lines into structured `ParsedCommand` objects.
+
+**TestFileValidator**
+- Performs syntax and semantic validation.
+- Detects:
+  - unknown commands
+  - invalid argument counts
+  - invalid numbers
+  - semantic errors (e.g. invalid threshold ranges)
+
+**TestStepFactory**
+- Creates concrete `TestStep` objects from validated commands.
+
+**TestPlanLoader**
+- Orchestrates the full loading process.
+- Returns a `LoadResult` containing:
+  - success/failure status
+  - validation errors
+  - constructed `TestPlan`
+
+---
+
+# Example Test Plan
+
+Example `testConfig.txt`:
+
+```
+# Example test configuration
+
+SET_VOLTAGE 5.0
+CHECK_THRESHOLD 4.9 5.1
+
+SET_VOLTAGE 3.3
+CHECK_THRESHOLD 3.2 3.4
+```
+
+Lines starting with `#` are treated as comments and ignored.
+
+---
+
+# Features
+
+- FSM-based test execution  
+  `IDLE → RUNNING → PASSED / FAILED / ERROR`
+
+- External configuration file support
+
+- Modular loading pipeline:
+  - Reader
+  - Parser
+  - Validator
+  - Factory
+  - Loader
+
+- Validation error reporting with line numbers
+
+- Abstract `TestStep` interface for extensibility
+
+- Clear separation of responsibilities following **SOLID principles**
+
+---
+
+# Project Structure
+
+```
+diagrams/      FSM and class UML diagrams
+include/       header files
+src/           implementation files
+testConfig.txt example test configuration
+```
+
+---
+
+# Build
+
 Compile using `g++`:
 
-## Version
+```
+g++ -std=c++17 -Iinclude src/*.cpp -o main.exe
+```
 
-Current version: **V1**
+Run:
 
-In this version the test steps are defined directly inside `TestRunner`.  
-Future versions will support loading test definitions from configuration files.
+```
+./main.exe
+```
 
-## Purpose
+---
 
-This project was created as a practice exercise to improve:
+# Version
 
-- C++ class design
-- finite state machine implementation
-- modular system architecture
-- deterministic programming style commonly used in embedded systems
+Current version: **V2**
+
+### V1
+- Test steps defined directly inside `TestRunner`.
+
+### V2
+- Added configuration file support.
+- Implemented Reader → Parser → Validator → Factory → Loader pipeline.
+- Introduced structured validation and error reporting.
+
+---

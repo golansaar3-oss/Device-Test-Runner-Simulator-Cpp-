@@ -1,8 +1,8 @@
-#include "test_runner.hpp"
 #include <iostream>
 #include <exception>
 #include <utility>
 
+#include "test_runner.hpp"
 #include "step_result.hpp"
 #include "state.hpp"
 TestRunner::TestRunner(TestPlan plan) : currentState(State::IDLE), device(), plan(std::move(plan))
